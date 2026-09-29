@@ -19,6 +19,11 @@
   // 변형 한 줄. x·y 는 fighter 폭·높이 기준 %, r 은 도, 발밑이 회전 축이다(CSS transform-origin)
   const T = (x = 0, y = 0, r = 0, sx = 1, sy = 1) => ({ transform: `translate(${x}%, ${y}%) rotate(${r}deg) scale(${sx}, ${sy})` });
   const BASE = T();
+  // 전투 캐릭터 요소. **잔상은 빼고 찾는다** - 잔상은 원본을 복제해 원본 앞에 끼워 넣으므로
+  // '.fighter.right' 로 찾으면 잔상이 먼저 잡힌다. 2026-09-29: 반격이 빗나가 회피 잔상이 남은
+  // 채로 연속 공격이 시작되면 잔상을 공격자로 잡았고, 그 잔상이 사라지며 예외 → 전투 화면이
+  // 닫히지 않아 게임이 멈췄다 (1장 레온 대 산적에서 재현).
+  const fighter = (side) => $(`.fight-cam > .fighter.${side}:not(.ghost)`);
 
   // ---- 파티클 (fx 캔버스) ------------------------------------------------
   const fx = { parts: [], running: false, ctx: null, freezeUntil: 0 };
@@ -216,7 +221,7 @@
   }
   // 잔상: fighter 를 복제해 같은 동작을 조금씩 늦게 따라가게 한다
   function ghosts(el, frames, opts, n = 3) {
-    if (skip || RM) return;
+    if (skip || RM || !el || !el.parentNode) return;
     for (let i = 1; i <= n; i++) {
       const g = el.cloneNode(true);
       g.classList.add('ghost');
@@ -327,7 +332,7 @@
   }
 
   function setupSide(side, u, hp, mhp) {
-    const f = $(`.fighter.${side}`);
+    const f = fighter(side);
     const img = $('img', f);
     f.getAnimations().forEach((a) => a.cancel());   // 지난 전투의 fill:forwards 가 남지 않게
     const sp = FD.A.sprites[u.art];
@@ -404,7 +409,7 @@
     $('.fexp').classList.add('hidden');
     $('.flevel').classList.add('hidden');
     $('.fbox.left').style.visibility = left ? '' : 'hidden';
-    $('.fighter.left').style.visibility = left ? '' : 'hidden';
+    fighter('left').style.visibility = left ? '' : 'hidden';
     msg('');
     layer.classList.remove('hidden');
     const onSkip = () => { skip = true; };
@@ -427,7 +432,7 @@
   // 한 번의 공격: 준비 → (필살 컷인) → 타격 → 적중/가드/회피 → 복귀
   // onImpact: 닿는 순간 부른다 - HP 막대가 숫자와 같은 순간에 줄어들게
   async function strikeAnim(attSide, defSide, att, def, s, idx, onImpact) {
-    const A = $(`.fighter.${attSide}`), D = $(`.fighter.${defSide}`);
+    const A = fighter(attSide), D = fighter(defSide);
     const dir = attSide === 'left' ? 1 : -1;
     const c = { A, D, dir, att, def, s, idx, from: [POS[attSide][0], POS[attSide][1] - 30], to: [POS[defSide][0], POS[defSide][1] - 30] };
     const kind = weaponKind(att);
@@ -471,7 +476,7 @@
 
   async function dieAnim(side) {
     FD.sfx('death');
-    const f = $(`.fighter.${side}`);
+    const f = fighter(side);
     const dir = side === 'left' ? -1 : 1;
     const [x] = POS[side];
     await anim(f, [{ filter: 'brightness(1)' }, { filter: 'brightness(4)' }], { duration: 90 });
@@ -509,8 +514,24 @@
     }
   }
 
+  // 연출은 계산이 끝난 뒤의 표시일 뿐이다(HP·경험치는 battle.js 가 이미 반영했다). 그러니 연출
+  // 도중 무슨 예외가 나도 게임을 멈추지 않는다: 기록하고, **전투 화면은 반드시 닫는다.**
+  async function guarded(run) {
+    try {
+      await run();
+    } catch (e) {
+      console.error('[fight] 연출 오류 - 건너뛴다:', e);
+    } finally {
+      try { await close(); } catch (e) { console.error('[fight] close 오류:', e); }
+      $('#fight-layer').classList.add('hidden');
+    }
+  }
+
   // ---- 공격 ------------------------------------------------------------
-  F.playAttack = async (B, res, snap, expInfo) => {
+  F.playAttack = (B, res, snap, expInfo) => guarded(() => runAttack(B, res, snap, expInfo));
+  F.playSpell = (B, res, snaps, expInfo) => guarded(() => runSpell(B, res, snaps, expInfo));
+
+  async function runAttack(B, res, snap, expInfo) {
     const { a, d } = res;
     const aSide = a.team === 'enemy' ? 'left' : 'right';
     const dSide = aSide === 'left' ? 'right' : 'left';
@@ -542,11 +563,10 @@
       }
     }
     await showExp(expInfo);
-    await close();
-  };
+  }
 
   // ---- 마법 ------------------------------------------------------------
-  F.playSpell = async (B, res, snaps, expInfo) => {
+  async function runSpell(B, res, snaps, expInfo) {
     const { caster, spell, effects } = res;
     const first = effects[0] && effects[0].t;
     const heal = spell.kind === 'heal';
@@ -558,7 +578,7 @@
     setupSide(cSide, caster, snaps[caster.uid].hp, snaps[caster.uid].mhp);
     if (showTarget) setupSide(tSide, first, snaps[first.uid].hp, snaps[first.uid].mhp);
     msg(`${FD.esc(caster.name)}의 <b>${spell.name}</b>!`);
-    const C = $(`.fighter.${cSide}`);
+    const C = fighter(cSide);
     emit({ kind: 'rune', x: POS[cSide][0], y: GROUND - 10, r: 100, color: heal ? '#8dffc0' : caster.team === 'enemy' ? '#b36bff' : '#7cc4ff', life: 900, add: true });
     await anim(C, [{ ...BASE, filter: 'brightness(1)' }, { ...T(0, -2, 0, 1.02, 1.02), filter: 'brightness(1.8) drop-shadow(0 0 18px #9cf)' }, { ...BASE, filter: 'brightness(1)' }], { duration: 560 });
     const targetPos = showTarget ? POS[tSide] : POS[cSide];
@@ -572,7 +592,7 @@
         popNumber(side, e.dmg);
         await hitstop(70);
         const dir = side === 'left' ? -1 : 1;
-        anim($(`.fighter.${side}`), [{ ...BASE, filter: 'brightness(4)' }, { ...T(dir * 6, 0, dir * 3), filter: 'none', offset: 0.35 }, { ...BASE, filter: 'none' }], { duration: 380 });
+        anim(fighter(side), [{ ...BASE, filter: 'brightness(4)' }, { ...T(dir * 6, 0, dir * 3), filter: 'none', offset: 0.35 }, { ...BASE, filter: 'none' }], { duration: 380 });
         setHp(side, Math.max(0, snaps[first.uid].hp - e.dmg), snaps[first.uid].mhp);
       }
       const extra = effects.length - 1;
@@ -582,6 +602,5 @@
       if (!heal && snaps[first.uid].hp - e.dmg <= 0) { await dieAnim(showTarget ? tSide : cSide); }
     }
     await showExp(expInfo);
-    await close();
-  };
+  }
 })(window.FD);

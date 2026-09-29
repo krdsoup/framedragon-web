@@ -73,6 +73,10 @@ tools/      생성 파이프라인
 
 ## 에셋을 다시 만들기
 
+제작 때 로컬 모델에 실제로 보낸 프롬프트 · 파라미터 · 소요시간 전체(qwen 6건 · 그림 69건 · BGM 26건)는
+[docs/generation-history.md](docs/generation-history.md) 에 있다. `tools/gen_history.py` 가 ComfyUI 이력과
+게이트웨이 요청 로그의 스냅샷(`tools/out/*_2026-09-29.json`)으로 만든다.
+
 rag_project 의 서비스(게이트웨이 8082 · rag API 8080 · ComfyUI 8188)가 떠 있어야 한다.
 키는 형제 폴더 `../rag_project/.env` 에서 읽는다 — 이 폴더에 복사하지 않는다.
 rag_project 가 다른 곳에 있으면 `FD_RAG_ROOT` 로, 키만 따로 주려면 `FD_GATEWAY_KEY`·`FD_RAG_KEY` 로 준다.

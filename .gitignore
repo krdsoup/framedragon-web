@@ -2,9 +2,15 @@
 # tools/gen_images.py 가 고정 시드로 다시 만든다 (같은 그림이 나오는지는 미검증).
 assets/raw/
 
+# BGM 후보(곡당 수 MB × 18)와 원래 곡 보관본(old-*.mp3). 고른 곡만 assets/bgm/ 에 들어간다.
+# 후보별 지표는 tools/out/bgm_candidates.json 에 남긴다.
+assets/bgm_candidates/
+# 위 후보를 가리키는 청취 페이지 - 후보가 없으면 링크가 깨진다. make_audition.py 로 다시 만든다
+tools/out/audition.html
+
+# Kenney 효과음 팩 zip 캐시. 쓰는 것만 assets/sfx/ 에 꺼낸다
+tools/.cache/
+
 # README 의 후처리 절차가 여기에 만드는 Pillow venv
 .imgvenv/
 __pycache__/
-assets/bgm_candidates/
-tools/.cache/
-tools/out/audition.html

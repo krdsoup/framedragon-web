@@ -1,6 +1,7 @@
 """생성 도구 공통 — 경로와 키.
 
-키는 rag_project/.env 에서 읽는다. 이 디렉터리(framedragon-web)에 키를 복사하지 않는다 -
+키는 형제 폴더 rag_project/.env 에서 읽는다 (FD_RAG_ROOT 로 바꿀 수 있다).
+이 디렉터리(framedragon-web)에 키를 복사하지 않는다 -
 복사본이 생기면 어긋나고, 게임 파일과 함께 LAN 에 나갈 수도 있다.
 
 - 게이트웨이(127.0.0.1:8082) 키: GATEWAY_API_KEY
@@ -14,8 +15,10 @@ import json
 import os
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parent.parent          # framedragon-web/
-RAG_ROOT = ROOT.parent                                  # rag_project/
+ROOT = Path(__file__).resolve().parent.parent          # framedragon-web/ (정션을 거쳐도 실제 경로)
+# rag_project 는 형제 디렉터리다: c:/Dev/project/{framedragon-web, rag_project}.
+# rag_project/framedragon-web 은 이 폴더를 가리키는 정션일 뿐이라 기준으로 쓰지 않는다.
+RAG_ROOT = Path(os.environ.get("FD_RAG_ROOT") or ROOT.parent / "rag_project")
 DESIGN = json.loads((ROOT / "tools" / "design.json").read_text(encoding="utf-8"))
 
 GATEWAY_URL = os.environ.get("FD_GATEWAY_URL", "http://127.0.0.1:8082")

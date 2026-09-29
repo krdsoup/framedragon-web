@@ -8,9 +8,14 @@
 ## 실행
 
 ```powershell
-cd c:\Dev\project\rag_project\framedragon-web
-..\.venv\Scripts\python.exe serve.py        # → http://127.0.0.1:8090/ 이 브라우저로 열린다
+cd c:\Dev\project\framedragon-web
+..\rag_project\.venv\Scripts\python.exe serve.py   # → http://127.0.0.1:8090/ 이 브라우저로 열린다
 ```
+
+**위치:** `c:\Dev\project\framedragon-web` 이 실제 폴더이고 rag_project 와 형제다.
+`rag_project\framedragon-web` 은 여기를 가리키는 **디렉터리 정션**이다 (관리자 권한 없이 만들 수 있는
+링크라 심볼릭 링크 대신 썼다). 정션을 지울 때는 `rmdir rag_project\framedragon-web` 만 쓴다 —
+재귀 삭제(`Remove-Item -Recurse`, `rm -rf`)는 실제 폴더의 내용까지 지울 수 있다.
 
 - 표준 라이브러리만 쓰므로 아무 파이썬이나 된다. `--no-browser`, 포트 지정(`serve.py 8095`)도 된다.
 - **127.0.0.1 에만 묶는다.** LAN 에 여는 문은 rag_project 의 8080 하나라는 원칙을 지킨다.
@@ -69,10 +74,11 @@ tools/      생성 파이프라인
 ## 에셋을 다시 만들기
 
 rag_project 의 서비스(게이트웨이 8082 · rag API 8080 · ComfyUI 8188)가 떠 있어야 한다.
-키는 `rag_project/.env` 에서 읽는다 — 이 폴더에 복사하지 않는다.
+키는 형제 폴더 `../rag_project/.env` 에서 읽는다 — 이 폴더에 복사하지 않는다.
+rag_project 가 다른 곳에 있으면 `FD_RAG_ROOT` 로, 키만 따로 주려면 `FD_GATEWAY_KEY`·`FD_RAG_KEY` 로 준다.
 
 ```powershell
-$py = "..\.venv\Scripts\python.exe"
+$py = "..\rag_project\.venv\Scripts\python.exe"
 & $py tools\gen_story.py          # 1) qwen3:14b → tools/out/story_ch*.json → js/data/story.js
 & $py tools\gen_images.py         # 2) ComfyUI Z-Image → assets/raw/  (있는 파일은 건너뜀)
 & $py tools\gen_music.py          # 3) ACE-Step → assets/bgm/

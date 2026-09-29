@@ -1,0 +1,171 @@
+{
+  "title": "프레임드래곤: 잿빛 성채의 맹약",
+  "premise": "용의 문장을 이어받은 왕가가 멸망한 지 17년. 제국의 흑기사단이 대륙을 삼키는 가운데, 변방 마을의 청년 레온은 산적의 습격을 계기로 자신의 손등에 새겨진 용의 문장과 마주한다. 그는 동료들과 함께, 옛 왕국의 보물 '황금 왕관'이 잠든 잿빛 성채로 향한다.",
+  "style_note": "1995년 대만 SRPG 용의기사2 풍의 오마주. 고전 판타지, 진지하지만 동료 간 가벼운 농담이 있다. 등장인물·지명·줄거리는 모두 오리지널이다.",
+  "characters": [
+    {
+      "id": "leon",
+      "name": "레온",
+      "role": "hero",
+      "cls": "검사",
+      "persona": "17세 주인공. 변방 마을 로엔의 대장간 견습생. 정의감이 강하고 솔직하다. 손등에 용의 문장이 있으나 그 의미를 모른다. 존댓말을 쓰지 않는 소년 말투.",
+      "look": "young man, 17 years old, short spiky crimson red hair, determined amber eyes, blue tunic under a light silver breastplate, red cape, leather gloves, holding a longsword"
+    },
+    {
+      "id": "sera",
+      "name": "세라",
+      "role": "hero",
+      "cls": "성직자",
+      "persona": "17세. 레온의 소꿉친구이자 마을 교회의 수련 사제. 상냥하지만 레온의 무모함에는 잔소리를 한다. 부드러운 존댓말과 반말을 섞는다.",
+      "look": "young woman, long wavy blonde hair, gentle blue eyes, white and gold priestess robe with a blue sash, small silver circlet, holding a wooden staff topped with a blue crystal"
+    },
+    {
+      "id": "volk",
+      "name": "볼크",
+      "role": "hero",
+      "cls": "전사",
+      "persona": "40대. 로엔 마을의 대장장이이자 레온의 스승. 과거 왕국 근위대 출신이라는 사실을 숨기고 있다. 호탕하고 굵은 아저씨 말투.",
+      "look": "big muscular middle-aged man, thick brown beard, scar across his nose, iron helmet with small horns, heavy dark iron plate armor, fur mantle, wielding a huge double-bladed battle axe"
+    },
+    {
+      "id": "kain",
+      "name": "카인",
+      "role": "hero",
+      "cls": "기사",
+      "persona": "25세. 멸망한 왕국 기사단의 마지막 기사. 과묵하고 예의 바르다. 레온의 문장을 보고 충성을 맹세한다. 격식 있는 존댓말.",
+      "look": "handsome knight, 25 years old, short black hair, calm grey eyes, dark blue full plate armor with gold trim, white tabard with a faded dragon crest, holding a long lance, riding a white warhorse"
+    },
+    {
+      "id": "mia",
+      "name": "미아",
+      "role": "hero",
+      "cls": "궁수",
+      "persona": "16세. 검은 숲의 사냥꾼 소녀. 활발하고 겁이 없으며 말이 빠르다. 제국 병사에게 쫓기다 일행에 합류한다. 발랄한 반말.",
+      "look": "energetic girl, 16 years old, short bob green hair, bright green eyes, green leather hunter outfit, brown hooded cloak, quiver on her back, holding a wooden longbow"
+    },
+    {
+      "id": "lucian",
+      "name": "루시안",
+      "role": "hero",
+      "cls": "마법사",
+      "persona": "22세. 제국 아카데미에서 쫓겨난 천재 마법사. 냉소적이고 말투가 비꼬지만 속정이 있다. 잿빛 성채의 옛 문헌을 연구해 왔다. 약간 거만한 존댓말.",
+      "look": "slender young man, 22 years old, long straight silver hair, sharp violet eyes, deep purple mage robe with gold embroidery, holding an open glowing spellbook, a small floating orb of fire"
+    },
+    {
+      "id": "elder",
+      "name": "촌장 하롤드",
+      "role": "npc",
+      "cls": "촌장",
+      "persona": "로엔 마을의 늙은 촌장. 레온의 출생 비밀을 조금 알고 있다.",
+      "look": "old man, white long beard, bald head, kind wrinkled face, simple brown villager robe, holding a wooden cane"
+    },
+    {
+      "id": "gardo",
+      "name": "가르도",
+      "role": "boss",
+      "cls": "산적 두목",
+      "persona": "산적 두목. 제국에게 돈을 받고 마을을 습격했다. 거칠고 탐욕스럽다. 거친 반말.",
+      "look": "brutal bandit leader, bald head with tattoos, black eyepatch, scarred face, crude leather and fur armor, spiked shoulder pad, holding a large rusty cleaver axe"
+    },
+    {
+      "id": "zeon",
+      "name": "흑기사 제온",
+      "role": "boss",
+      "cls": "흑기사",
+      "persona": "제국 흑기사단의 부단장. 냉혹하지만 기사의 명예를 중시한다. 카인과 옛 인연이 있다. 위압적인 하대.",
+      "look": "imposing dark knight, full black spiked plate armor with red glowing accents, black horned helmet with red eyes glowing through the visor, tattered dark red cape, holding a massive black greatsword"
+    },
+    {
+      "id": "bandit",
+      "name": "산적",
+      "role": "enemy",
+      "cls": "산적",
+      "look": "scruffy bandit, messy hair, bandana, torn leather vest, holding a hand axe"
+    },
+    {
+      "id": "wolf",
+      "name": "들개",
+      "role": "enemy",
+      "cls": "들개",
+      "look": "fierce grey wild wolf, bared fangs, bristling fur"
+    },
+    {
+      "id": "soldier",
+      "name": "제국병",
+      "role": "enemy",
+      "cls": "제국 창병",
+      "look": "imperial soldier, black steel helmet with face guard, black and red uniform with chainmail, holding a spear and a small round shield"
+    },
+    {
+      "id": "e_archer",
+      "name": "제국 궁병",
+      "role": "enemy",
+      "cls": "제국 궁병",
+      "look": "imperial archer, black leather hood, red scarf over mouth, black and red light armor, holding a crossbow"
+    },
+    {
+      "id": "dark_mage",
+      "name": "흑마도사",
+      "role": "enemy",
+      "cls": "흑마도사",
+      "look": "sinister dark sorcerer, black hooded robe with purple runes, pale face, glowing purple eyes, holding a twisted staff with a purple flame"
+    },
+    {
+      "id": "skeleton",
+      "name": "해골병",
+      "role": "enemy",
+      "cls": "해골병",
+      "look": "undead skeleton warrior made only of bare white bones, a grinning bare skull head with glowing blue eye sockets, visible ribcage and bony arms and legs, no skin, no flesh, no face, a rusty dented helmet, holding a chipped sword and a cracked wooden shield"
+    }
+  ],
+  "chapters": [
+    {
+      "id": 1,
+      "title": "불타는 새벽",
+      "place": "변방 마을 로엔",
+      "outline": "새벽, 산적 두목 가르도의 무리가 로엔 마을을 습격한다. 레온·세라·볼크가 맞서 싸운다. 3턴째 왕국의 마지막 기사 카인이 말을 타고 나타나 합류한다. 4턴째 북쪽 숲에서 산적 증원군이 나타난다. 가르도를 쓰러뜨리면 승리. 전투 뒤 촌장 하롤드가 레온의 문장이 옛 왕가의 증표임을 알려 주고, 카인이 레온에게 충성을 맹세한다. 가르도는 죽기 전 '제국이 문장을 가진 자를 찾는다'고 흘린다.",
+      "speakers": [
+        "leon",
+        "sera",
+        "volk",
+        "kain",
+        "elder",
+        "gardo"
+      ],
+      "victory": "가르도 격파",
+      "defeat": "레온 사망"
+    },
+    {
+      "id": 2,
+      "title": "검은 숲의 사냥꾼",
+      "place": "검은 숲",
+      "outline": "제국의 추격을 피해 검은 숲으로 들어간 일행은 제국병에게 쫓기는 사냥꾼 소녀 미아를 발견한다. 미아는 NPC 우군이며, 레온이 미아에게 인접하면 정식으로 합류한다. 3턴째 동쪽에서 제국 궁병 증원이 나타난다. 적을 전멸시키면 승리. 전투 뒤 미아가 잿빛 성채로 가는 숲길을 안다며 동행을 자청한다.",
+      "speakers": [
+        "leon",
+        "sera",
+        "volk",
+        "kain",
+        "mia"
+      ],
+      "victory": "적 전멸",
+      "defeat": "레온 또는 미아 사망"
+    },
+    {
+      "id": 3,
+      "title": "잿빛 성채",
+      "place": "잿빛 성채",
+      "outline": "숲 끝의 폐허 앞에서 마법사 루시안이 일행을 기다리고 있다. 그는 성채에 잠든 황금 왕관은 용의 문장을 가진 자만 꺼낼 수 있다고 말하고 합류한다. 성채 안은 흑마도사가 되살린 해골병과 제국군이 지키고, 옥좌에는 흑기사 제온이 기다린다. 제온은 카인의 옛 기사단 동료였다. 제온을 쓰러뜨리면 승리. 제온은 '황제께서 이미 왕관의 절반을 손에 넣었다'는 말을 남기고 퇴각한다. 옥좌 뒤 비밀 통로에서 금빛 문이 열리며 다음 이야기로 이어진다.",
+      "speakers": [
+        "leon",
+        "sera",
+        "volk",
+        "kain",
+        "mia",
+        "lucian",
+        "zeon"
+      ],
+      "victory": "흑기사 제온 격파",
+      "defeat": "레온 사망"
+    }
+  ]
+}

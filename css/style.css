@@ -1,0 +1,259 @@
+/* FrameDragon — 90년대 대만 SRPG 풍: 남색 그라데이션 창 + 금테 */
+:root {
+  --bg: #0a0d18;
+  --win-top: #1f3268;
+  --win-bot: #0e1838;
+  --gold: #d8b25a;
+  --gold-hi: #fff0b3;
+  --ink: #eef2ff;
+  --muted: #9aa6c8;
+  --blue: #3b82f6;
+  --red: #ef4444;
+  --green: #22c55e;
+  --font: "Malgun Gothic", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+  --serif: "Batang", "Nanum Myeongjo", "Times New Roman", serif;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; background: var(--bg); color: var(--ink); font-family: var(--font); overflow: hidden; }
+button { font-family: inherit; }
+.hidden { display: none !important; }
+.muted { color: var(--muted); }
+.bad { color: #ff8a8a; }
+.gold { color: #ffd76a; }
+
+#app { position: fixed; inset: 0; }
+.screen { position: absolute; inset: 0; display: none; }
+.screen.active { display: flex; }
+
+/* 창 공통 */
+.panel, .popup, #forecast, .modal-box, #dialog, .camp-box, .fbox, .title-menu button, .fmsg, .fexp {
+  background: linear-gradient(180deg, var(--win-top), var(--win-bot));
+  border: 2px solid var(--gold);
+  box-shadow: inset 0 0 0 1px #000, inset 0 0 0 3px rgba(255, 240, 180, 0.12), 0 6px 18px rgba(0, 0, 0, 0.55);
+  border-radius: 6px;
+}
+
+/* ---- 타이틀 ---- */
+#title-screen { align-items: center; justify-content: center; }
+.title-bg { position: absolute; inset: 0; background: #111 center/cover no-repeat; }
+.title-bg::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,0.1) 30%, rgba(5,8,20,0.85)); }
+.title-box { position: relative; text-align: center; margin-top: 30vh; }
+.logo { font-family: var(--serif); font-size: clamp(42px, 8vw, 96px); margin: 0; letter-spacing: 0.06em;
+  background: linear-gradient(180deg, #fff6c8, #e6b34a 55%, #8a5a12); -webkit-background-clip: text; background-clip: text; color: transparent;
+  filter: drop-shadow(0 4px 0 #2a1400) drop-shadow(0 0 18px rgba(255, 120, 40, 0.55)); }
+.logo span { color: transparent; }
+.subtitle { font-family: var(--serif); font-size: clamp(18px, 2.6vw, 28px); margin: 4px 0 26px; color: #ffe7b0; text-shadow: 0 2px 6px #000; letter-spacing: 0.3em; }
+.title-menu { display: flex; flex-direction: column; gap: 10px; align-items: center; }
+.title-menu button { width: 220px; padding: 10px 0; font-size: 18px; color: var(--ink); cursor: pointer; transition: transform 0.1s, filter 0.1s; }
+.title-menu button:hover:not(:disabled) { transform: translateY(-1px); filter: brightness(1.25); border-color: var(--gold-hi); }
+.title-menu button:disabled { opacity: 0.4; cursor: default; }
+.credit { margin-top: 28px; font-size: 12px; color: #b9c2dd; text-shadow: 0 1px 3px #000; padding: 0 16px; }
+
+/* ---- 전투 화면 ---- */
+#battle-screen { flex-direction: column; background: radial-gradient(ellipse at center, #141c33, #06080f); }
+#topbar { height: 46px; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 0 12px;
+  background: linear-gradient(180deg, #1a2550, #0b1230); border-bottom: 2px solid var(--gold); flex: none; }
+.tb-left { display: flex; gap: 14px; align-items: center; font-weight: bold; white-space: nowrap; }
+#tb-chapter { font-family: var(--serif); color: #ffe7b0; }
+#tb-phase { padding: 2px 10px; border-radius: 10px; font-size: 13px; }
+.phase-player { background: #1d4ed8; } .phase-enemy { background: #b91c1c; } .phase-ally { background: #15803d; }
+#tb-objective { font-size: 13px; color: #d7def5; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+#tb-objective b { color: var(--gold); margin-right: 4px; }
+.tb-right { display: flex; gap: 6px; }
+.tb-right button, .camp-menu button, .modal-btns button, .row button, .equip-list button {
+  background: linear-gradient(180deg, #2c4486, #16244f); color: var(--ink); border: 1px solid var(--gold); border-radius: 4px;
+  padding: 5px 10px; cursor: pointer; font-size: 13px; }
+.tb-right button:hover, .camp-menu button:hover, .modal-btns button:hover, .row button:hover:not(:disabled), .equip-list button:hover { filter: brightness(1.3); }
+.tb-right button.on { background: linear-gradient(180deg, #7c3aed, #4c1d95); }
+.row button:disabled { opacity: 0.4; cursor: default; }
+
+#battle-body { flex: 1; display: flex; gap: 10px; padding: 8px; min-height: 0; }
+#map-wrap { flex: 1; position: relative; display: flex; align-items: center; justify-content: center; min-width: 0; }
+#map { display: block; width: 100%; max-width: calc((100vh - 66px) * 960 / 672); aspect-ratio: 960 / 672; height: auto;
+  border: 2px solid var(--gold); border-radius: 4px; box-shadow: 0 0 0 2px #000, 0 10px 30px rgba(0, 0, 0, 0.7); cursor: pointer; }
+#side { width: 290px; flex: none; display: flex; flex-direction: column; gap: 8px; min-height: 0; }
+.panel { padding: 10px; }
+#unit-panel { min-height: 120px; }
+#log-panel { flex: 1; min-height: 80px; overflow: hidden; }
+#log { height: 100%; overflow-y: auto; font-size: 12px; line-height: 1.55; }
+.log-line { border-bottom: 1px dashed rgba(255, 255, 255, 0.08); padding: 1px 0; }
+.keys { font-size: 11px; color: var(--muted); padding: 0 4px; }
+
+/* 유닛 카드 */
+.ucard { font-size: 13px; }
+.uc-head { display: flex; gap: 8px; align-items: center; margin-bottom: 6px; }
+.uc-portrait { width: 64px; height: 64px; flex: none; border: 2px solid var(--gold); border-radius: 4px; overflow: hidden; background: #000; }
+.uc-portrait img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.team-enemy .uc-portrait { border-color: #f87171; }
+.team-ally .uc-portrait { border-color: #4ade80; }
+.uc-name { font-weight: bold; font-size: 16px; }
+.uc-name .boss { font-style: normal; font-size: 11px; background: #b45309; padding: 1px 5px; border-radius: 3px; margin-left: 4px; }
+.uc-cls { color: var(--muted); font-size: 12px; }
+.exp { height: 4px; background: #0008; border-radius: 2px; margin-top: 4px; overflow: hidden; }
+.exp i { display: block; height: 100%; background: linear-gradient(90deg, #fde68a, #f59e0b); }
+.bar { position: relative; height: 16px; background: #000a; border: 1px solid #0008; border-radius: 3px; margin: 3px 0; overflow: hidden; }
+.bar i { position: absolute; inset: 0 auto 0 0; }
+.bar.hp i { background: linear-gradient(180deg, #6ee7a0, #16a34a); }
+.bar.mp i { background: linear-gradient(180deg, #93c5fd, #2563eb); }
+.bar span { position: relative; display: block; text-align: center; font-size: 11px; line-height: 16px; text-shadow: 0 1px 2px #000; }
+.uc-stats { width: 100%; border-collapse: collapse; margin: 6px 0 4px; }
+.uc-stats th { color: var(--gold); font-weight: normal; text-align: left; font-size: 12px; }
+.uc-stats td { text-align: right; padding-right: 10px; }
+.uc-weapon, .uc-spells { font-size: 12px; color: #dbe4ff; }
+.uc-spells { color: #c4b5fd; }
+.terr b { color: var(--gold); } .terr span { color: var(--muted); font-size: 12px; }
+.terr-sub { font-size: 12px; color: #cdd6f4; margin-top: 3px; }
+
+/* 행동 메뉴 */
+.popup { position: absolute; z-index: 20; min-width: 150px; padding: 6px; display: flex; flex-direction: column; gap: 2px; }
+.menu-title { font-size: 12px; color: var(--gold); padding: 2px 8px 4px; border-bottom: 1px solid rgba(216, 178, 90, 0.35); margin-bottom: 3px; }
+.popup button { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; background: transparent; color: var(--ink);
+  border: 0; text-align: left; padding: 6px 10px; font-size: 15px; border-radius: 3px; cursor: pointer; }
+.popup button small { color: var(--muted); font-size: 11px; }
+.popup button.sel { background: linear-gradient(90deg, rgba(255, 215, 120, 0.35), rgba(255, 215, 120, 0.05)); }
+.popup button.sel span::before { content: "▶ "; color: var(--gold-hi); }
+.popup button:disabled { color: #6b7597; cursor: default; }
+
+/* 전투 예측 */
+#forecast { position: absolute; top: 8px; left: 50%; transform: translateX(-50%); z-index: 15; padding: 8px 12px; font-size: 13px; min-width: 300px; pointer-events: none; }
+.fc-cols { display: flex; align-items: center; gap: 10px; }
+.fc-col { flex: 1; text-align: center; line-height: 1.5; }
+.fc-col.off { opacity: 0.55; }
+.fc-name { font-weight: bold; color: var(--gold); }
+.fc-vs { font-family: var(--serif); color: #ffb4a0; font-weight: bold; }
+.fc-hp { color: var(--muted); font-size: 12px; }
+.fc-grid { display: flex; gap: 12px; justify-content: center; margin-top: 4px; }
+.fc-note { font-size: 11px; color: var(--muted); text-align: center; }
+
+/* 턴 배너 */
+#banner { position: absolute; left: 0; right: 0; top: 42%; z-index: 30; text-align: center; pointer-events: none; }
+#banner span { display: inline-block; padding: 10px 60px; font-family: var(--serif); font-size: 30px; font-weight: bold; letter-spacing: 0.1em;
+  background: linear-gradient(90deg, transparent, rgba(20, 40, 110, 0.92) 20%, rgba(20, 40, 110, 0.92) 80%, transparent);
+  border-top: 2px solid var(--gold); border-bottom: 2px solid var(--gold); text-shadow: 0 2px 4px #000; transform: scaleX(0); transition: transform 0.25s; }
+#banner.show span { transform: scaleX(1); }
+#banner small { font-size: 14px; color: var(--gold-hi); margin-right: 10px; }
+#banner.b-enemy span { background: linear-gradient(90deg, transparent, rgba(120, 20, 20, 0.92) 20%, rgba(120, 20, 20, 0.92) 80%, transparent); }
+#banner.b-ally span { background: linear-gradient(90deg, transparent, rgba(20, 100, 40, 0.92) 20%, rgba(20, 100, 40, 0.92) 80%, transparent); }
+#banner.b-event span { font-size: 20px; }
+
+/* ---- 대화 장면 ---- */
+#scene-layer { position: fixed; inset: 0; z-index: 50; display: flex; align-items: flex-end; justify-content: center; }
+.scene-bg { position: absolute; inset: 0; background: #000 center/cover no-repeat; }
+.scene-bg::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,0) 45%, rgba(0,0,0,0.75)); }
+#scene-layer.overlay .scene-bg { background: rgba(0, 0, 0, 0.35) !important; }
+#scene-layer.overlay .scene-bg::after { display: none; }
+#dialog { position: relative; width: min(980px, calc(100% - 32px)); margin-bottom: 28px; min-height: 150px; display: flex; gap: 16px; padding: 16px 20px 16px 16px; cursor: pointer; }
+.dlg-portrait { width: 132px; height: 132px; flex: none; border: 2px solid var(--gold); border-radius: 4px; overflow: hidden; background: #000; margin-top: -40px; box-shadow: 0 6px 16px #000; }
+.dlg-portrait img { width: 100%; height: 100%; object-fit: cover; display: block; }
+#dialog.narration .dlg-portrait { display: none; }
+#dialog.narration .dlg-text { font-style: italic; color: #e8dcc0; }
+.dlg-body { flex: 1; min-width: 0; }
+.dlg-name { font-weight: bold; color: var(--gold-hi); font-size: 17px; margin-bottom: 6px; min-height: 1em; }
+.dlg-text { font-size: 19px; line-height: 1.65; word-break: keep-all; }
+.dlg-next { position: absolute; right: 16px; bottom: 8px; color: var(--gold); animation: blink 1s infinite; }
+@keyframes blink { 50% { opacity: 0.2; } }
+#scene-skip { position: absolute; top: 14px; right: 16px; background: rgba(0, 0, 0, 0.55); color: #ddd; border: 1px solid #888; border-radius: 4px; padding: 6px 12px; cursor: pointer; z-index: 2; }
+#scene-layer.card-mode #dialog, #scene-layer.card-mode #scene-skip { display: none; }
+.chapter-card { position: absolute; top: 50%; left: 0; right: 0; transform: translateY(-50%); text-align: center; padding: 26px 0;
+  background: linear-gradient(90deg, transparent, rgba(8, 12, 30, 0.85) 25%, rgba(8, 12, 30, 0.85) 75%, transparent);
+  border-top: 1px solid var(--gold); border-bottom: 1px solid var(--gold); animation: cardin 0.6s ease-out; }
+.chapter-card small { color: var(--gold); letter-spacing: 0.4em; }
+.chapter-card h2 { font-family: var(--serif); font-size: clamp(30px, 5vw, 54px); margin: 6px 0; color: #fff3cf; text-shadow: 0 3px 8px #000; }
+.chapter-card p { margin: 0; color: #cfd6ee; letter-spacing: 0.2em; }
+@keyframes cardin { from { opacity: 0; letter-spacing: 0.3em; } to { opacity: 1; } }
+
+/* ---- 전투 연출 ---- */
+#fight-layer { position: fixed; inset: 0; z-index: 40; background: rgba(0, 0, 0, 0.85); display: flex; align-items: center; justify-content: center; }
+.fight-stage { position: relative; width: min(100vw, calc(100vh * 16 / 9)); aspect-ratio: 16 / 9; overflow: hidden; border-top: 3px solid var(--gold); border-bottom: 3px solid var(--gold); }
+.fight-bg { position: absolute; inset: 0; background: #223 center/cover no-repeat; filter: saturate(1.05); }
+.fight-bg::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,0.25), rgba(0,0,0,0) 30%, rgba(0,0,0,0.1) 70%, rgba(0,0,0,0.45)); }
+#fx { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 5; }
+.fighter { position: absolute; bottom: 9%; height: 56%; width: 34%; display: flex; align-items: flex-end; justify-content: center; z-index: 4; }
+.fighter.left { left: 14%; } .fighter.right { right: 14%; }
+.fighter.big { width: 42%; height: 50%; }
+.fighter.left.big { left: 8%; } .fighter.right.big { right: 8%; }
+.fighter img { max-height: 100%; max-width: 100%; object-fit: contain; filter: drop-shadow(0 10px 8px rgba(0, 0, 0, 0.55)); }
+.fighter::after { content: ""; position: absolute; bottom: -2%; left: 20%; right: 20%; height: 7%; background: radial-gradient(ellipse, rgba(0,0,0,0.55), transparent 70%); z-index: -1; }
+.fbox { position: absolute; top: 4%; width: 30%; padding: 8px 12px; z-index: 6; }
+.fbox.left { left: 3%; } .fbox.right { right: 3%; }
+.fbox.enemy { border-color: #f87171; }
+.fname { font-weight: bold; margin-bottom: 4px; font-size: clamp(12px, 1.4vw, 18px); }
+.fhp { height: 14px; background: #000a; border-radius: 3px; overflow: hidden; border: 1px solid #0008; }
+.fhp i { display: block; height: 100%; background: linear-gradient(180deg, #6ee7a0, #16a34a); }
+.fhp i.mid { background: linear-gradient(180deg, #fde68a, #ca8a04); }
+.fhp i.low { background: linear-gradient(180deg, #fca5a5, #dc2626); }
+.fhpnum { text-align: right; font-size: clamp(11px, 1.2vw, 15px); margin-top: 2px; font-variant-numeric: tabular-nums; }
+.fmsg { position: absolute; bottom: 2.5%; left: 50%; transform: translateX(-50%); padding: 6px 22px; z-index: 6; font-size: clamp(12px, 1.5vw, 18px); white-space: nowrap; min-height: 1.8em; }
+.fmsg:empty { display: none; }
+.fnum { position: absolute; top: 34%; z-index: 7; font-family: var(--serif); font-weight: 900; font-size: clamp(28px, 4.5vw, 64px); color: #fff;
+  -webkit-text-stroke: 2px #300; text-shadow: 0 3px 0 #000, 0 0 12px rgba(255, 80, 40, 0.7); pointer-events: none; }
+.fnum.crit { color: #ffe066; font-size: clamp(36px, 6vw, 84px); }
+.fnum.crit-label { top: 26%; font-size: clamp(18px, 2.4vw, 32px); color: #ffd23f; letter-spacing: 0.1em; }
+.fnum.miss { color: #a5c8ff; text-shadow: 0 3px 0 #000; }
+.fnum.heal { color: #86efac; text-shadow: 0 3px 0 #000, 0 0 12px rgba(80, 255, 140, 0.7); }
+.fexp { position: absolute; right: 3%; bottom: 14%; z-index: 6; display: flex; align-items: center; gap: 8px; padding: 6px 12px; font-size: 14px; }
+.fexp span { color: var(--gold); font-weight: bold; }
+.fexpbar { width: 160px; height: 10px; background: #000a; border-radius: 3px; overflow: hidden; }
+.fexpbar i { display: block; height: 100%; background: linear-gradient(90deg, #fde68a, #f59e0b); }
+.flevel { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); z-index: 8; }
+
+.lvup { text-align: center; padding: 14px 26px; }
+.flevel .lvup { background: linear-gradient(180deg, var(--win-top), var(--win-bot)); border: 2px solid var(--gold); border-radius: 6px; box-shadow: 0 8px 30px #000; margin-bottom: 8px; }
+.lvup-title { font-family: var(--serif); font-size: 30px; font-weight: 900; color: #ffe066; text-shadow: 0 0 16px rgba(255, 200, 50, 0.8); }
+.lvup-name { margin: 6px 0 10px; }
+.lvup-gains { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+.lvup-gains b { color: #86efac; }
+.learn { margin-top: 8px; color: #c4b5fd; }
+
+/* ---- 모달 ---- */
+#modal { position: fixed; inset: 0; z-index: 70; display: flex; align-items: center; justify-content: center; background: rgba(0, 0, 0, 0.45); }
+.modal-box { min-width: 300px; max-width: min(520px, calc(100% - 32px)); padding: 18px 22px; }
+.modal-box h3 { margin: 0 0 12px; color: var(--gold); font-family: var(--serif); }
+.modal-btns { display: flex; gap: 8px; justify-content: flex-end; margin-top: 14px; }
+.modal-btns button { padding: 7px 18px; font-size: 14px; }
+.set-row { display: flex; justify-content: space-between; align-items: center; gap: 20px; padding: 6px 0; }
+.result { text-align: center; }
+.res-title { font-family: var(--serif); font-size: 40px; font-weight: 900; }
+.result.win .res-title { color: #ffe066; text-shadow: 0 0 20px rgba(255, 200, 60, 0.7); }
+.result.lose .res-title { color: #fca5a5; }
+.got { text-align: center; } .got-title { color: var(--gold); font-family: var(--serif); font-size: 22px; margin-bottom: 6px; }
+.got b { color: #ffe38a; font-size: 18px; } .got p { color: var(--muted); font-size: 13px; }
+
+/* ---- 야영지 ---- */
+#camp-screen { align-items: center; justify-content: center; }
+.camp-bg { position: absolute; inset: 0; background: #111 center/cover no-repeat; filter: brightness(0.75); }
+.camp-box { position: relative; width: min(1100px, calc(100% - 32px)); max-height: calc(100% - 32px); display: flex; flex-direction: column; padding: 16px 18px; }
+.camp-box h2 { margin: 0; font-family: var(--serif); color: #ffe7b0; font-size: 22px; }
+.camp-gold { position: absolute; right: 18px; top: 18px; color: #ffd76a; }
+.camp-menu { display: flex; gap: 6px; margin: 12px 0; flex-wrap: wrap; }
+.camp-menu button { font-size: 15px; padding: 7px 16px; }
+.camp-menu button.on { background: linear-gradient(180deg, #c9a34a, #7a5a14); color: #fff; }
+.camp-menu button.go { margin-left: auto; background: linear-gradient(180deg, #b91c1c, #6b0f0f); font-weight: bold; }
+#camp-content { overflow-y: auto; min-height: 200px; }
+.roster { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 10px; }
+.rcard { background: rgba(0, 0, 0, 0.25); border: 1px solid rgba(216, 178, 90, 0.4); border-radius: 6px; padding: 10px; }
+.rcard.dead { opacity: 0.6; }
+.dead-tag { color: #fca5a5; font-size: 12px; margin-top: 6px; }
+.row { display: flex; align-items: center; gap: 12px; padding: 6px 4px; border-bottom: 1px dashed rgba(255, 255, 255, 0.1); }
+.row > span:first-child { flex: 1; }
+.price { color: #ffd76a; min-width: 60px; text-align: right; }
+.shop { display: grid; grid-template-columns: 3fr 2fr; gap: 20px; }
+.shop h4, .equip h4 { color: var(--gold); margin: 6px 0; }
+.equip { display: grid; grid-template-columns: 180px 1fr; gap: 16px; }
+.equip-list { display: flex; flex-direction: column; gap: 4px; }
+.equip-list button.on { background: linear-gradient(180deg, #c9a34a, #7a5a14); }
+.gold-btn { background: linear-gradient(180deg, #d4a52c, #7a5a14) !important; }
+
+#fade { position: fixed; inset: 0; background: #000; opacity: 1; pointer-events: none; transition: opacity 0.4s; z-index: 90; }
+
+@media (max-width: 900px) {
+  #battle-body { flex-direction: column; overflow-y: auto; }
+  #side { width: 100%; flex-direction: row; flex-wrap: wrap; }
+  #side .panel { flex: 1 1 260px; }
+  #map { max-width: 100%; }
+  #tb-objective { display: none; }
+  .shop, .equip { grid-template-columns: 1fr; }
+  .dlg-portrait { width: 84px; height: 84px; margin-top: -24px; }
+  .dlg-text { font-size: 16px; }
+}
+#scene-layer.overlay #scene-skip { top: 60px; }

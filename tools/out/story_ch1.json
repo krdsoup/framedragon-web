@@ -1,0 +1,173 @@
+{
+ "elapsed_s": 14.9,
+ "usage": {
+  "prompt_tokens": 1275,
+  "completion_tokens": 1136,
+  "total_tokens": 2411
+ },
+ "meta": {
+  "num_ctx": 16384,
+  "estimated_prompt_tokens": 1045,
+  "truncated": false
+ },
+ "story": {
+  "intro": [
+   {
+    "speaker": "narration",
+    "text": "새벽, 로엔 마을은 불길로 뒤덮인다."
+   },
+   {
+    "speaker": "narration",
+    "text": "산적들의 외침이 마을 곳곳에서 울린다."
+   },
+   {
+    "speaker": "leon",
+    "text": "이게 뭐야, 세라? 누가 이걸 하지?"
+   },
+   {
+    "speaker": "sera",
+    "text": "산적들이야. 어서 대장간으로 피하세요!"
+   },
+   {
+    "speaker": "volk",
+    "text": "내가 맡겠어. 레온, 네가 안전해야 해."
+   },
+   {
+    "speaker": "gardo",
+    "text": "야, 애들! 죽기 전에 멋진 싸움 좀 보여주지?"
+   },
+   {
+    "speaker": "leon",
+    "text": "놈들, 그만 떠들고 내려와!"
+   },
+   {
+    "speaker": "sera",
+    "text": "레온, 조심해요. 그건 산적 두목이에요."
+   },
+   {
+    "speaker": "gardo",
+    "text": "하하하, 봐봐, 이건 누가 봐도 죽을 놈들이네!"
+   },
+   {
+    "speaker": "volk",
+    "text": "이제 됐다, 레온. 나 좀 도와줘!"
+   }
+  ],
+  "kain_arrive": [
+   {
+    "speaker": "narration",
+    "text": "먼저 흐린 하늘에서 검은 깃발이 보인다."
+   },
+   {
+    "speaker": "narration",
+    "text": "백마를 탄 기사가 전장에 뛰어든다."
+   },
+   {
+    "speaker": "kain",
+    "text": "이곳에 도움을 요청하셨습니까?"
+   },
+   {
+    "speaker": "leon",
+    "text": "그렇다. 도와줘, 기사."
+   },
+   {
+    "speaker": "kain",
+    "text": "그럼, 함께 싸우겠습니다."
+   }
+  ],
+  "reinforce": [
+   {
+    "speaker": "narration",
+    "text": "북쪽 숲에서 산적들의 외침이 들린다."
+   },
+   {
+    "speaker": "gardo",
+    "text": "이거 다 봐라, 너희들! 죽을 날이 다가와!"
+   },
+   {
+    "speaker": "volk",
+    "text": "젠장, 이럴수가! 증원군이 왔다."
+   },
+   {
+    "speaker": "sera",
+    "text": "레온, 준비하세요! 더 많은 적들이 오고 있어요."
+   }
+  ],
+  "boss_defeat": [
+   {
+    "speaker": "gardo",
+    "text": "이게 뭐야... 왜 이렇게... 강해..."
+   },
+   {
+    "speaker": "gardo",
+    "text": "제국이... 문장을 가진 자를... 찾는다..."
+   },
+   {
+    "speaker": "narration",
+    "text": "가르도는 바닥에 쓰러진다."
+   },
+   {
+    "speaker": "narration",
+    "text": "불길은 잔잔하게 가라앉는다."
+   }
+  ],
+  "outro": [
+   {
+    "speaker": "narration",
+    "text": "전투 끝, 마을은 정적을 되찾는다."
+   },
+   {
+    "speaker": "elder",
+    "text": "레온, 네 손등에 있는 그 문장... 왕가의 증표야."
+   },
+   {
+    "speaker": "leon",
+    "text": "정말? 나 같은 놈이?"
+   },
+   {
+    "speaker": "kain",
+    "text": "그분의 후예로 태어나셨으니, 그에 걸맞게 행동하십시오."
+   },
+   {
+    "speaker": "kain",
+    "text": "나는 당신의 충성심을 맹세합니다."
+   },
+   {
+    "speaker": "leon",
+    "text": "야, 카인. 그건 너무 심한 말이잖아."
+   },
+   {
+    "speaker": "sera",
+    "text": "레온, 이건 큰 책임이에요. 잘 생각하세요."
+   },
+   {
+    "speaker": "volk",
+    "text": "이제 가야겠어. 잿빛 성채로 가는 길이야."
+   },
+   {
+    "speaker": "leon",
+    "text": "알겠어. 우리가 뭔가를 해야 할 때야."
+   },
+   {
+    "speaker": "narration",
+    "text": "이들은 잿빛 성채로 향하는 길을 떠난다."
+   },
+   {
+    "speaker": "narration",
+    "text": "그리고 그 뒤로는 어둠이 남아 있다."
+   },
+   {
+    "speaker": "narration",
+    "text": "제국의 눈이 그들을 따라 잡고 있다."
+   },
+   {
+    "speaker": "narration",
+    "text": "용의 문장이 레온의 운명을 바꾼다."
+   },
+   {
+    "speaker": "narration",
+    "text": "그리고 그 길은 지금 시작된다."
+   }
+  ]
+ }
+}

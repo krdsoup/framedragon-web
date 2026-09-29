@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FrameDragon</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 16 16%22%3E%3Cpath d=%22M2 13 L8 2 L14 13 Z%22 fill=%22%23d8b25a%22/%3E%3C/svg%3E">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="app">
+
+  <!-- 타이틀 -->
+  <section id="title-screen" class="screen">
+    <div class="title-bg"></div>
+    <div class="title-box">
+      <h1 class="logo">FRAME<span>DRAGON</span></h1>
+      <p class="subtitle">잿빛 성채의 맹약</p>
+      <div class="title-menu">
+        <button data-act="new">새 게임</button>
+        <button data-act="continue">이어하기</button>
+        <button data-act="settings">설정</button>
+      </div>
+      <p class="credit">용의기사2(1995) 오마주 · 그림 ComfyUI Z-Image · 음악 ACE-Step · 대사 초안 qwen3:14b</p>
+    </div>
+  </section>
+
+  <!-- 전투 맵 -->
+  <section id="battle-screen" class="screen">
+    <header id="topbar">
+      <div class="tb-left">
+        <span id="tb-chapter"></span>
+        <span id="tb-turn"></span>
+        <span id="tb-phase"></span>
+      </div>
+      <div id="tb-objective"></div>
+      <div class="tb-right">
+        <button id="btn-danger" title="적 공격 범위 (R)">위험 범위</button>
+        <button id="btn-anim" title="전투 연출 켜기/끄기">연출 ON</button>
+        <button id="btn-endturn" title="턴 종료 (E)">턴 종료</button>
+      </div>
+    </header>
+    <div id="battle-body">
+      <div id="map-wrap">
+        <canvas id="map" width="960" height="672"></canvas>
+        <div id="action-menu" class="popup hidden"></div>
+        <div id="forecast" class="hidden"></div>
+        <div id="banner" class="hidden"></div>
+      </div>
+      <aside id="side">
+        <div id="unit-panel" class="panel"></div>
+        <div id="terrain-panel" class="panel"></div>
+        <div id="log-panel" class="panel"><div id="log"></div></div>
+        <div class="keys">클릭/Z 선택 · 우클릭/X 취소 · N 다음 유닛 · R 위험 범위 · E 턴 종료</div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- 야영지 (챕터 사이) -->
+  <section id="camp-screen" class="screen">
+    <div class="camp-bg"></div>
+    <div class="camp-box">
+      <h2 id="camp-title">야영지</h2>
+      <div class="camp-gold">소지금 <b id="camp-gold">0</b> G</div>
+      <nav class="camp-menu">
+        <button data-tab="party">부대</button>
+        <button data-tab="equip">장비</button>
+        <button data-tab="shop">상점</button>
+        <button data-tab="church">교회</button>
+        <button data-tab="save">저장</button>
+        <button data-tab="go" class="go">출격 ▶</button>
+      </nav>
+      <div id="camp-content"></div>
+    </div>
+  </section>
+
+  <!-- 대화 장면 (전투 위에도 겹친다) -->
+  <div id="scene-layer" class="hidden">
+    <div class="scene-bg"></div>
+    <div id="dialog">
+      <div class="dlg-portrait"><img alt=""></div>
+      <div class="dlg-body">
+        <div class="dlg-name"></div>
+        <div class="dlg-text"></div>
+      </div>
+      <div class="dlg-next">▼</div>
+    </div>
+    <button id="scene-skip">건너뛰기 ≫</button>
+  </div>
+
+  <!-- 전투 연출 -->
+  <div id="fight-layer" class="hidden">
+    <div class="fight-stage">
+      <div class="fight-bg"></div>
+      <canvas id="fx" width="1280" height="720"></canvas>
+      <div class="fighter left"><img alt=""></div>
+      <div class="fighter right"><img alt=""></div>
+      <div class="fbox left"><div class="fname"></div><div class="fhp"><i></i></div><div class="fhpnum"></div></div>
+      <div class="fbox right"><div class="fname"></div><div class="fhp"><i></i></div><div class="fhpnum"></div></div>
+      <div class="fmsg"></div>
+      <div class="fexp hidden"><span>EXP</span><div class="fexpbar"><i></i></div><b></b></div>
+      <div class="flevel hidden"></div>
+    </div>
+  </div>
+
+  <!-- 모달 (설정·확인·결과) -->
+  <div id="modal" class="hidden"><div class="modal-box"></div></div>
+  <div id="fade"></div>
+</div>
+
+<!-- 데이터 (생성 파일 포함) -->
+<script src="js/data/assets.js"></script>
+<script src="js/data/story.js"></script>
+<script src="js/data/rules_data.js"></script>
+<script src="js/data/chapters.js"></script>
+<!-- 엔진 -->
+<script src="js/engine/util.js"></script>
+<script src="js/engine/audio.js"></script>
+<script src="js/engine/rules.js"></script>
+<script src="js/engine/state.js"></script>
+<script src="js/engine/render.js"></script>
+<script src="js/engine/ui.js"></script>
+<script src="js/engine/fight.js"></script>
+<script src="js/engine/ai.js"></script>
+<script src="js/engine/battle.js"></script>
+<script src="js/engine/camp.js"></script>
+<script src="js/engine/main.js"></script>
+</body>
+</html>

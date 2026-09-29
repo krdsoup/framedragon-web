@@ -1,0 +1,139 @@
+{
+ "elapsed_s": 11.4,
+ "usage": {
+  "prompt_tokens": 1099,
+  "completion_tokens": 864,
+  "total_tokens": 1963
+ },
+ "meta": {
+  "num_ctx": 16384,
+  "estimated_prompt_tokens": 940,
+  "truncated": false
+ },
+ "story": {
+  "intro": [
+   {
+    "speaker": "narration",
+    "text": "검은 숲의 어둠 속에서 소녀의 비명이 울린다."
+   },
+   {
+    "speaker": "narration",
+    "text": "레온과 일행은 나무 뒤에서 그 모습을 본다."
+   },
+   {
+    "speaker": "mia",
+    "text": "도와줘! 제국병들이 뒤따르고 있어!"
+   },
+   {
+    "speaker": "leon",
+    "text": "미아야, 괜찮아? 어디서 그런 겁을 났어?"
+   },
+   {
+    "speaker": "mia",
+    "text": "제국병들이 내 아빠를 잡아갔어. 나만 남았어."
+   },
+   {
+    "speaker": "sera",
+    "text": "제국병들이 사냥하고 있는 게 분명해."
+   },
+   {
+    "speaker": "volk",
+    "text": "그럼 우리도 같이 잡을 수 있어. 그들이 누구든."
+   },
+   {
+    "speaker": "kain",
+    "text": "제국의 군인들이 여기까지 오다니 의심스러워."
+   },
+   {
+    "speaker": "mia",
+    "text": "그럼 우리 같이 가자! 저기 제국병들이 가는 쪽이야."
+   },
+   {
+    "speaker": "leon",
+    "text": "그래. 우리도 그들을 따라가자."
+   }
+  ],
+  "mia_join": [
+   {
+    "speaker": "leon",
+    "text": "미아, 네가 우리와 함께 가고 싶어?"
+   },
+   {
+    "speaker": "mia",
+    "text": "응! 나도 제국병들한테 맞을 수 있어."
+   },
+   {
+    "speaker": "kain",
+    "text": "그렇다면, 미아 님도 우리와 함께 싸우게 될 것이오."
+   },
+   {
+    "speaker": "mia",
+    "text": "아저씨, 그건 너무 멋있어!"
+   },
+   {
+    "speaker": "sera",
+    "text": "미아가 우리와 함께 한다면 힘이 더 될 거야."
+   }
+  ],
+  "reinforce": [
+   {
+    "speaker": "kain",
+    "text": "동쪽에서 더 많은 병사들이 오고 있어."
+   },
+   {
+    "speaker": "mia",
+    "text": "제국 궁병들이야! 숲 안으로 들어가야 해."
+   },
+   {
+    "speaker": "volk",
+    "text": "그쪽 길이야, 미아가 말했잖아."
+   },
+   {
+    "speaker": "leon",
+    "text": "그럼 우리가 그 길로 들어가자."
+   }
+  ],
+  "outro": [
+   {
+    "speaker": "narration",
+    "text": "전투가 끝나고, 숲속이 조용해진다."
+   },
+   {
+    "speaker": "mia",
+    "text": "나 미아야! 검은 숲에서 사냥을 하던 소녀야."
+   },
+   {
+    "speaker": "sera",
+    "text": "미아 씨, 숲길을 잘 아시는 거죠?"
+   },
+   {
+    "speaker": "mia",
+    "text": "응! 잿빛 성채로 가는 숲길을 잘 알아."
+   },
+   {
+    "speaker": "leon",
+    "text": "그럼 우리도 그길로 가자."
+   },
+   {
+    "speaker": "kain",
+    "text": "그것이 잠든 보물이 있는 곳이라면, 그곳을 지켜야 할 것이다."
+   },
+   {
+    "speaker": "volk",
+    "text": "그 길을 따라가면 잿빛 성채가 나온다던데."
+   },
+   {
+    "speaker": "mia",
+    "text": "제국병들이 지키고 있을 수도 있어. 우리가 따라가야 해."
+   },
+   {
+    "speaker": "sera",
+    "text": "우리 모두 잿빛 성채로 가는 길을 걷게 되었군요."
+   },
+   {
+    "speaker": "leon",
+    "text": "그럼 우리 같이 가자. 잿빛 성채로."
+   }
+  ]
+ }
+}

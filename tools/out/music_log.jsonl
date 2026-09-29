@@ -1,0 +1,8 @@
+{"id": "title", "duration": 75, "elapsed_s": 37.4, "bytes": 2359655, "license": "apache-2.0", "commercial_use": true}
+{"id": "battle", "duration": 90, "elapsed_s": 14.2, "bytes": 2959469, "license": "apache-2.0", "commercial_use": true}
+{"id": "enemy", "duration": 60, "elapsed_s": 10.1, "bytes": 1898731, "license": "apache-2.0", "commercial_use": true}
+{"id": "boss", "duration": 90, "elapsed_s": 16.1, "bytes": 3005035, "license": "apache-2.0", "commercial_use": true}
+{"id": "camp", "duration": 60, "elapsed_s": 11.1, "bytes": 1871858, "license": "apache-2.0", "commercial_use": true}
+{"id": "story", "duration": 60, "elapsed_s": 12.1, "bytes": 1817797, "license": "apache-2.0", "commercial_use": true}
+{"id": "victory", "duration": 20, "elapsed_s": 4.1, "bytes": 608849, "license": "apache-2.0", "commercial_use": true}
+{"id": "gameover", "duration": 25, "elapsed_s": 5.1, "bytes": 744474, "license": "apache-2.0", "commercial_use": true}

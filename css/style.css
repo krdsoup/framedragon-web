@@ -178,8 +178,10 @@ button { font-family: inherit; }
 .fbox.left { left: 3%; } .fbox.right { right: 3%; }
 .fbox.enemy { border-color: #f87171; }
 .fname { font-weight: bold; margin-bottom: 4px; font-size: clamp(12px, 1.4vw, 18px); }
-.fhp { height: 14px; background: #000a; border-radius: 3px; overflow: hidden; border: 1px solid #0008; }
-.fhp i { display: block; height: 100%; background: linear-gradient(180deg, #6ee7a0, #16a34a); }
+.fhp { position: relative; height: 14px; background: #000a; border-radius: 3px; overflow: hidden; border: 1px solid #0008; }
+.fhp i, .fhp b { position: absolute; inset: 0 auto 0 0; display: block; height: 100%; }
+.fhp b { background: #fff; opacity: 0.85; }            /* 늦게 따라 줄어드는 잔상 막대 */
+.fhp i { z-index: 1; background: linear-gradient(180deg, #6ee7a0, #16a34a); }
 .fhp i.mid { background: linear-gradient(180deg, #fde68a, #ca8a04); }
 .fhp i.low { background: linear-gradient(180deg, #fca5a5, #dc2626); }
 .fhpnum { text-align: right; font-size: clamp(11px, 1.2vw, 15px); margin-top: 2px; font-variant-numeric: tabular-nums; }
@@ -191,6 +193,27 @@ button { font-family: inherit; }
 .fnum.crit-label { top: 26%; font-size: clamp(18px, 2.4vw, 32px); color: #ffd23f; letter-spacing: 0.1em; }
 .fnum.miss { color: #a5c8ff; text-shadow: 0 3px 0 #000; }
 .fnum.heal { color: #86efac; text-shadow: 0 3px 0 #000, 0 0 12px rgba(80, 255, 140, 0.7); }
+.fnum.guard { color: #b9dcff; text-shadow: 0 3px 0 #000, 0 0 12px rgba(120, 180, 255, 0.8); }
+.fnum.counter-label { top: 24%; font-size: clamp(18px, 2.4vw, 32px); color: #ffb07a; letter-spacing: 0.08em; }
+
+/* 카메라 · 잔상 · 필살 컷인 */
+.fight-cam { position: absolute; inset: 0; }
+.fighter { transform-origin: 50% 100%; }
+.fighter.ghost { pointer-events: none; z-index: 3; filter: brightness(1.7) saturate(0.3); }
+.fighter.ghost::after { display: none; }
+.cutin { position: absolute; left: 0; right: 0; top: 30%; height: 32%; z-index: 9; pointer-events: none; }
+.ci-band { height: 100%; display: flex; flex-direction: row-reverse; align-items: center; gap: 3%; padding: 0 10%;
+  background: repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.16) 0 2px, transparent 2px 36px),
+    linear-gradient(90deg, transparent, rgba(140, 18, 10, 0.92) 18%, rgba(140, 18, 10, 0.92) 82%, transparent);
+  border-top: 3px solid var(--gold); border-bottom: 3px solid var(--gold); animation: ci-lines 0.25s linear infinite; }
+.cutin.from-left .ci-band { flex-direction: row; }
+.ci-band img { height: 125%; aspect-ratio: 1; object-fit: cover; border: 3px solid var(--gold-hi); transform: skewX(-8deg);
+  box-shadow: 0 0 24px rgba(255, 200, 80, 0.8); background: #000; }
+.ci-text { font-family: var(--serif); text-shadow: 0 3px 0 #000; }
+.ci-name { display: block; font-size: clamp(16px, 2vw, 26px); color: #fff; }
+.ci-text b { font-size: clamp(36px, 6vw, 84px); color: #ffe066; letter-spacing: 0.1em; }
+@keyframes ci-lines { to { background-position: 36px 0, 0 0; } }
+@media (prefers-reduced-motion: reduce) { .ci-band { animation: none; } }
 .fexp { position: absolute; right: 3%; bottom: 14%; z-index: 6; display: flex; align-items: center; gap: 8px; padding: 6px 12px; font-size: 14px; }
 .fexp span { color: var(--gold); font-weight: bold; }
 .fexpbar { width: 160px; height: 10px; background: #000a; border-radius: 3px; overflow: hidden; }

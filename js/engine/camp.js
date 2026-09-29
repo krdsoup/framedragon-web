@@ -83,7 +83,7 @@
     }
     if (d.buy) {
       const it = FD.item(d.buy);
-      if (FD.party.gold >= it.price) { FD.party.gold -= it.price; FD.bagAdd(d.buy); FD.sfx('item'); }
+      if (FD.party.gold >= it.price) { FD.party.gold -= it.price; FD.bagAdd(d.buy); FD.sfx('coins'); }
       render(); return;
     }
     if (d.sell) {

@@ -91,12 +91,16 @@
   <!-- 전투 연출 -->
   <div id="fight-layer" class="hidden">
     <div class="fight-stage">
-      <div class="fight-bg"></div>
-      <canvas id="fx" width="1280" height="720"></canvas>
-      <div class="fighter left"><img alt=""></div>
-      <div class="fighter right"><img alt=""></div>
-      <div class="fbox left"><div class="fname"></div><div class="fhp"><i></i></div><div class="fhpnum"></div></div>
-      <div class="fbox right"><div class="fname"></div><div class="fhp"><i></i></div><div class="fhpnum"></div></div>
+      <!-- 카메라(확대·흔들림)는 이 안에만 걸린다. HP 상자·메시지는 흔들리지 않는다 -->
+      <div class="fight-cam">
+        <div class="fight-bg"></div>
+        <div class="fighter left"><img alt=""></div>
+        <div class="fighter right"><img alt=""></div>
+        <canvas id="fx" width="1280" height="720"></canvas>
+      </div>
+      <div class="cutin hidden"><div class="ci-band"><img alt=""><div class="ci-text"><span class="ci-name"></span><b>필살!</b></div></div></div>
+      <div class="fbox left"><div class="fname"></div><div class="fhp"><b></b><i></i></div><div class="fhpnum"></div></div>
+      <div class="fbox right"><div class="fname"></div><div class="fhp"><b></b><i></i></div><div class="fhpnum"></div></div>
       <div class="fmsg"></div>
       <div class="fexp hidden"><span>EXP</span><div class="fexpbar"><i></i></div><b></b></div>
       <div class="flevel hidden"></div>
@@ -111,6 +115,8 @@
 <!-- 데이터 (생성 파일 포함) -->
 <script src="js/data/assets.js"></script>
 <script src="js/data/story.js"></script>
+<script src="js/data/sfx.js"></script>
+<script src="js/data/bgm_meta.js"></script>
 <script src="js/data/rules_data.js"></script>
 <script src="js/data/chapters.js"></script>
 <!-- 엔진 -->

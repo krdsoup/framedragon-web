@@ -12,22 +12,73 @@ from __future__ import annotations
 
 import http.server
 import os
+import re
 import socketserver
 import sys
 import webbrowser
 from functools import partial
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
+_RANGE = re.compile(r"^bytes=(\d*)-(\d*)$")
+
+
+class _Slice:
+    """파일의 [start, start+n) 만 읽히게 한다 - copyfile 이 Range 밖을 보내지 않게."""
+
+    def __init__(self, f, n: int):
+        self.f, self.n = f, n
+
+    def read(self, size: int = -1) -> bytes:
+        if self.n <= 0:
+            return b""
+        size = self.n if size is None or size < 0 else min(size, self.n)
+        data = self.f.read(size)
+        self.n -= len(data)
+        return data
+
+    def close(self) -> None:
+        self.f.close()
 
 
 class Handler(http.server.SimpleHTTPRequestHandler):
     # Windows 레지스트리가 .js 를 text/plain 으로 매핑해 둔 PC 가 있다
     extensions_map = {**http.server.SimpleHTTPRequestHandler.extensions_map,
-                      ".js": "text/javascript", ".mp3": "audio/mpeg", ".css": "text/css"}
+                      ".js": "text/javascript", ".mp3": "audio/mpeg", ".ogg": "audio/ogg",
+                      ".css": "text/css"}
 
     def end_headers(self):
         self.send_header("Cache-Control", "no-cache")
+        self.send_header("Accept-Ranges", "bytes")
         super().end_headers()
+
+    # 표준 SimpleHTTPRequestHandler 는 Range 를 모른다. 그러면 브라우저가 BGM 의 아직 받지 않은
+    # 구간으로 건너뛰지 못한다 (2026-09-29: 150초 곡에서 currentTime 지정이 무시됐다).
+    def send_head(self):
+        rng = self.headers.get("Range")
+        path = self.translate_path(self.path)
+        m = _RANGE.match(rng.strip()) if rng else None
+        if not m or os.path.isdir(path) or not os.path.isfile(path):
+            return super().send_head()
+        f = open(path, "rb")
+        size = os.fstat(f.fileno()).st_size
+        start, end = m.groups()
+        if start == "":                                  # bytes=-N : 끝에서 N 바이트
+            start, end = max(0, size - int(end or 0)), size - 1
+        else:
+            start, end = int(start), min(int(end) if end else size - 1, size - 1)
+        if start >= size or start > end:
+            f.close()
+            self.send_response(416)
+            self.send_header("Content-Range", f"bytes */{size}")
+            self.end_headers()
+            return None
+        self.send_response(206)
+        self.send_header("Content-Type", self.guess_type(path))
+        self.send_header("Content-Range", f"bytes {start}-{end}/{size}")
+        self.send_header("Content-Length", str(end - start + 1))
+        self.end_headers()
+        f.seek(start)
+        return _Slice(f, end - start + 1)
 
     def log_message(self, fmt, *args):
         pass

@@ -42,7 +42,7 @@ window.FD = window.FD || {};
   })));
 
   // 설정 - 브라우저 저장소가 막혀 있어도 기본값으로 돈다
-  FD.settings = { anim: true, bgm: 0.5, sfx: true, textSpeed: 28 };
+  FD.settings = { anim: true, bgm: 0.5, sfx: true, sfxVol: 0.8, textSpeed: 28 };
   try {
     const s = JSON.parse(localStorage.getItem('fd_settings') || 'null');
     if (s) Object.assign(FD.settings, s);

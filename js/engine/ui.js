@@ -258,13 +258,17 @@
     const html = `<h3>설정</h3>
       <label class="set-row"><span>전투 연출</span><input type="checkbox" id="set-anim" ${s.anim ? 'checked' : ''}></label>
       <label class="set-row"><span>효과음</span><input type="checkbox" id="set-sfx" ${s.sfx ? 'checked' : ''}></label>
+      <label class="set-row"><span>효과음 음량</span><input type="range" id="set-sfxvol" min="0" max="1" step="0.05" value="${s.sfxVol}"></label>
       <label class="set-row"><span>BGM 음량</span><input type="range" id="set-bgm" min="0" max="1" step="0.05" value="${s.bgm}"></label>
       <label class="set-row"><span>글자 속도</span><input type="range" id="set-text" min="0" max="60" step="4" value="${60 - s.textSpeed}"></label>`;
     const p = UI.modal(html, [{ label: '닫기', value: true }]);
     $('#set-bgm').addEventListener('input', (e) => FD.bgm.setVolume(+e.target.value));
+    // 손을 뗄 때 한 번 들려 준다 - 음량을 귀로 맞추게
+    $('#set-sfxvol').addEventListener('change', (e) => { FD.sfx.setVolume(+e.target.value); FD.sfx('hit', { weapon: 'sword' }); });
     await p;
     s.anim = $('#set-anim').checked;
     s.sfx = $('#set-sfx').checked;
+    FD.sfx.setVolume(+$('#set-sfxvol').value);
     s.bgm = +$('#set-bgm').value;
     s.textSpeed = 60 - +$('#set-text').value;
     FD.saveSettings();

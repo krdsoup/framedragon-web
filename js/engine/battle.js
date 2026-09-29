@@ -108,8 +108,12 @@
     }
     const label = { player: '아군의 턴', enemy: '적군의 턴', ally: '우군의 턴' }[team];
     FD.sfx('phase');
+    // 턴마다 곡을 바꾼다: 아군 턴 battle, 적 턴 enemy, 보스 조우 뒤로는 boss.
+    // resume 이라 돌아오면 멈춘 자리부터 이어진다 - 턴마다 같은 도입부를 다시 듣지 않는다
+    const bossTrack = B.bossBgm ? (B.chapter.bossBgm || 'boss') : null;
+    if (team === 'player') FD.bgm.play(bossTrack || B.chapter.bgm || 'battle', { resume: true });
+    else if (team === 'enemy') FD.bgm.play(bossTrack || 'enemy', { resume: true });
     if (!FD.fastMode) await UI().banner(`<small>TURN ${B.turn}</small> ${label}`, 'b-' + team);
-    if (team === 'enemy' && B.chapter.bossBgm && B.bossBgm) FD.bgm.play(B.chapter.bossBgm);
     if (team === 'player') {
       if (FD.test.auto) await autoPhase('player');
       else await playerPhase();
@@ -243,14 +247,18 @@
       const tgt = s.who === 'a' ? d : a;
       UI().log(`${FD.esc((s.who === 'a' ? a : d).name)} → ${FD.esc(tgt.name)}: ${s.hit ? `<b>${s.dmg}</b>${s.crit ? ' 필살!' : ''}` : '빗나감'}`);
     }
+    // 맵에서 먼저 들이받고 전투 장면으로 넘어간다
+    await Rn().animateBump(a, d);
     if (FD.settings.anim && !FD.fastMode) await FD.Fight.playAttack(B, res, snap, info);
     else {
-      for (const s of res.strikes) {
-        const tgt = s.who === 'a' ? d : a;
-        FD.sfx(s.hit ? (s.crit ? 'crit' : 'hit') : 'miss');
+      for (const [i, s] of res.strikes.entries()) {
+        const src = s.who === 'a' ? a : d, tgt = s.who === 'a' ? d : a;
+        if (i > 0) await Rn().animateBump(src, tgt, 0.3, 160);
+        const weapon = FD.isMagicWeapon(src) ? 'tome' : FD.weaponOf(src).type;
+        FD.sfx(s.hit ? 'hit' : 'miss', { weapon, crit: s.crit });
         Rn().float(tgt.x, tgt.y, s.hit ? String(s.dmg) : 'MISS', s.crit ? '#ffe066' : s.hit ? '#fff' : '#9cc4ff', s.crit ? 22 : 18);
-        if (s.hit) { tgt.flash = performance.now() + 120; Rn().shake = s.crit ? 6 : 3; }
-        await FD.sleep(380);
+        if (s.hit) { tgt.flash = performance.now() + 120; Rn().shake = s.crit ? 6 : 3; Rn().animateKnock(tgt, src); }
+        await FD.sleep(340);
       }
       await showLevelUpsOnMap(info);
     }
@@ -567,7 +575,7 @@
     const id = B.chests[k];
     B.opened[k] = true;
     FD.bagAdd(id);
-    FD.sfx('item');
+    FD.sfx('chest');
     Rn().float(u.x, u.y, FD.item(id).name, '#ffe38a', 15, 1600);
     UI().log(`보물상자에서 <b>${FD.item(id).name}</b>을(를) 얻었다!`);
     if (!FD.fastMode && !FD.test.auto) await UI().modal(`<div class="got"><div class="got-title">보물상자</div><b>${FD.item(id).name}</b>을(를) 손에 넣었다!<p>${FD.item(id).desc || ''}</p></div>`);

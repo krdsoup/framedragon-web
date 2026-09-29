@@ -311,13 +311,33 @@
       u.rx = a.x + (b.x - a.x) * k; u.ry = a.y + (b.y - a.y) * k;
       if (k >= 1) {
         i++; t0 = now;
-        if (i % 2 === 0) FD.sfx('step');
+        // 한 칸에 한 발. 밟은 칸의 지형과 이동 타입(보병·중갑·기마·짐승)에 따라 소리가 다르다
+        FD.sfx('step', { move: FD.moveTypeOf(u), terrain: R.B.tiles[b.y][b.x] });
         if (i >= path.length - 1) { u.rx = u.ry = undefined; resolve(); return; }
       }
       requestAnimationFrame(step);
     };
     requestAnimationFrame(step);
   });
+
+  // 제자리에서 (tx,ty) 쪽으로 dist 칸 나갔다 돌아온다. 들이받기(공격)·밀림(피격)에 쓴다
+  function nudge(u, tx, ty, dist, ms) {
+    return new Promise((resolve) => {
+      if (FD.fastMode) { resolve(); return; }
+      const len = Math.hypot(tx - u.x, ty - u.y) || 1;
+      const dx = (tx - u.x) / len, dy = (ty - u.y) / len;
+      const t0 = performance.now();
+      const step = (now) => {
+        const k = Math.min(1, (now - t0) / ms);
+        const e = Math.sin(Math.PI * k) * dist;
+        u.rx = u.x + dx * e; u.ry = u.y + dy * e;
+        if (k < 1) requestAnimationFrame(step); else { u.rx = u.ry = undefined; resolve(); }
+      };
+      requestAnimationFrame(step);
+    });
+  }
+  R.animateBump = (u, target, dist = 0.38, ms = 200) => nudge(u, target.x, target.y, dist, ms);
+  R.animateKnock = (u, from, dist = 0.14, ms = 180) => nudge(u, 2 * u.x - from.x, 2 * u.y - from.y, dist, ms);
 
   R.fadeOut = (u) => new Promise((resolve) => {
     if (FD.fastMode) { resolve(); return; }

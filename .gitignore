@@ -5,3 +5,6 @@ assets/raw/
 # README 의 후처리 절차가 여기에 만드는 Pillow venv
 .imgvenv/
 __pycache__/
+assets/bgm_candidates/
+tools/.cache/
+tools/out/audition.html

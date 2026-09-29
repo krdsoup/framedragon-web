@@ -94,15 +94,42 @@ python -m venv .imgvenv; .imgvenv\Scripts\pip install pillow numpy
 - qwen 초안 중 고친 장면은 `tools/story_fixes.json` 에 있다. 재생성해도 고친 것이 살아남는다.
 - 특정 그림만 다시: 파일을 지우고 `gen_images.py --id skeleton`, 또는 `--seed-offset 7` 로 다른 그림.
 
+### 맵 BGM 을 후보에서 골라 바꾸기
+
+처음 맵 곡(battle·enemy·boss)은 "깨지는 전자음"으로 들렸다. 재 보니 8kHz 이상 고역이 4.45% 로
+어쿠스틱 곡(0~0.1%)보다 훨씬 날카로웠다. 프롬프트의 `retro synth`·`electric bass` 가 원인으로 보여,
+악기 이름만 적는 프롬프트로 후보를 여럿 만들고 귀로 고른다. **ACE-Step 은 네거티브 프롬프트가 먹지 않는다.**
+
+```powershell
+& $py tools\gen_music.py --candidates        # 곡당 2변형 × 3시드 → assets/bgm_candidates/ + 지표
+& $py tools\make_audition.py                 # → http://127.0.0.1:8090/tools/out/audition.html 에서 듣기
+& $py tools\make_audition.py pick battle=<ID> enemy=<ID> boss=<ID>   # 반영 + 음량 보정
+```
+
+지표 측정은 ComfyUI 컨테이너의 PyAV 로 한다 (`tools/audio_metrics.py`) — 호스트에 ffmpeg 가 없다.
+원래 곡은 `assets/bgm_candidates/old-<곡>.mp3` 로 남는다.
+
+### 효과음
+
+```powershell
+& $py tools\fetch_sfx.py            # Kenney CC0 팩 → assets/sfx/ + js/data/sfx.js (License.txt 의 CC0 를 확인한 뒤에만)
+```
+
+이동·타격은 샘플, UI·마법은 합성이다. 발소리는 밟는 지형(잔디·흙길·돌바닥·융단·다리)과
+이동 타입(보병·중갑·기마·짐승)에 따라 다르다. file:// 로 열면 샘플을 못 읽어 합성음으로 떨어진다.
+
 ## 라이선스
 
 - 그림: **Z-Image-Turbo (Apache 2.0)** — 전 장 `meta.license: apache-2.0` 확인 (`tools/out/images_log.jsonl`)
 - 음악: **ACE-Step 1.5 (Apache 2.0)** — `tools/out/music_log.jsonl`
+- 효과음: **Kenney "Impact Sounds"·"RPG Audio" (CC0)** — 원문 `assets/sfx/LICENSE-kenney-*.txt`
 - 비상업 전용인 `qwen-image` 는 쓰지 않았다.
 
 ## 알려진 한계
 
 - 3장까지다. 3장 결말이 "다음 이야기로" 로 끝난다.
 - 한 번 뽑은 그림을 쓰므로 인물의 초상화·전신·SD 가 세부(장식·색)에서 조금씩 다르다.
-- BGM 이 루프 지점에서 끊기지 않게 부탁만 했다 — 이음새가 매끄러운지는 곡마다 다르다.
+- 그림이 한 장이라 공격 포즈가 없다. 움직임은 변형·잔상·카메라·파티클로 만든다.
+- BGM 루프는 끝 2.5초를 교차시켜 이음새를 덮는다. 곡 자체가 자연스럽게 이어지는지는 곡마다 다르다.
+- 효과음 ogg 는 Android·데스크톱 크롬에서 재생된다. iPad Safari 는 미검증이다.
 - 모바일 레이아웃은 동작만 하고 다듬지 않았다.
